@@ -174,7 +174,28 @@ int contar_no_criticos(ErrorLog *cabeza)
  */
 ErrorLog *eliminar_por_prioridad(ErrorLog *cabeza, float umbral)
 {
-    /* ESCRIBE TU CODIGO AQUI */
+    ErrorLog *actual = cabeza;
+    ErrorLog *anterior = NULL;
+
+    while (actual != NULL) {
+        if (actual->prioridad < umbral) {
+            ErrorLog *temp = actual;
+
+            if (anterior == NULL) {
+                cabeza = actual->sig;
+                actual = cabeza;
+            } else {
+                anterior->sig = actual->sig;
+                actual = actual->sig;
+            }
+
+            free(temp);
+        } else {
+            anterior = actual;
+            actual = actual->sig;
+        }
+    }
+
     return cabeza;
 }
 
