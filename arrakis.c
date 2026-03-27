@@ -1,4 +1,4 @@
-#include "arrakis2.h"
+#include "arrakis.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -228,3 +228,7 @@ int main(void)
 
     return 0;
 }
+//El código implementa un anillo circular de casas en el desierto de Arrakis, donde cada nodo representa un asentamiento con soldados y especia; el gusano de arena avanza 
+aleatoriamente por el anillo, atacando casas y reduciendo sus soldados mientras las demás cosechan especia, y si una casa queda con muy pocos soldados es eliminada del ciclo; 
+además, si una casa acumula suficiente especia, puede invocar refuerzos insertando un nuevo nodo justo antes de sí misma, y todas estas operaciones se manejan
+mediante funciones que permiten insertar casas, avanzar el gusano, aplicar ataques y refuerzos, manteniendo la integridad del anillo circular y evitando fugas de memoria.//
