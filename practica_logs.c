@@ -94,7 +94,38 @@ void liberar_lista(ErrorLog *cabeza)
  */
 void insertar_ordenado(ErrorLog **cabeza, ErrorLog *nuevo)
 {
-    /* ESCRIBE TU CODIGO AQUI */
+    if (!nuevo) return;
+
+    char letra_nuevo = nuevo->id[0];
+
+    /* Caso: lista vacía o inserción al inicio */
+    if (*cabeza == NULL ||
+        letra_nuevo < (*cabeza)->id[0] ||
+        (letra_nuevo == (*cabeza)->id[0] &&
+         nuevo->prioridad > (*cabeza)->prioridad))
+    {
+        nuevo->sig = *cabeza;
+        *cabeza = nuevo;
+        return;
+    }
+
+    ErrorLog *actual = *cabeza;
+
+    while (actual->sig != NULL) {
+        char letra_sig = actual->sig->id[0];
+
+        if (letra_nuevo < letra_sig ||
+            (letra_nuevo == letra_sig &&
+             nuevo->prioridad > actual->sig->prioridad))
+        {
+            break;
+        }
+
+        actual = actual->sig;
+    }
+
+    nuevo->sig = actual->sig;
+    actual->sig = nuevo;
 }
 
 /*
@@ -104,8 +135,15 @@ void insertar_ordenado(ErrorLog **cabeza, ErrorLog *nuevo)
  */
 int contar_criticos(ErrorLog *cabeza)
 {
-    /* ESCRIBE TU CODIGO AQUI */
-    return 0;
+       int count = 0;
+
+    while (cabeza != NULL) {
+        if (cabeza->es_critico == 1)
+            count++;
+        cabeza = cabeza->sig;
+    }
+
+    return count;
 }
 
 /*
@@ -115,8 +153,15 @@ int contar_criticos(ErrorLog *cabeza)
  */
 int contar_no_criticos(ErrorLog *cabeza)
 {
-    /* ESCRIBE TU CODIGO AQUI */
-    return 0;
+    int count = 0;
+
+    while (cabeza != NULL) {
+        if (cabeza->es_critico == 0)
+            count++;
+        cabeza = cabeza->sig;
+    }
+
+    return count;
 }
 
 /*
