@@ -212,7 +212,49 @@ ErrorLog *eliminar_por_prioridad(ErrorLog *cabeza, float umbral)
  */
 ErrorLog *conservar_mayor_no_critico(ErrorLog *cabeza)
 {
-    /* ESCRIBE TU CODIGO AQUI */
+    ErrorLog *actual = cabeza;
+    ErrorLog *max_no_critico = NULL;
+    float max_prioridad = -1.0;
+
+    /* Paso 1: Recorrer para encontrar el no crítico con mayor prioridad */
+    while (actual != NULL) {
+        if (actual->es_critico == 0) {
+            if (actual->prioridad > max_prioridad) {
+                max_prioridad = actual->prioridad;
+                max_no_critico = actual;
+            }
+        }
+        actual = actual->sig;
+    }
+
+    /* Si no hay nodos no críticos, devolvemos la lista tal cual */
+    if (max_no_critico == NULL) {
+        return cabeza;
+    }
+
+    /* Paso 2: Recorrer nuevamente y eliminar todos los no críticos excepto el encontrado */
+    actual = cabeza;
+    ErrorLog *anterior = NULL;
+    
+    while (actual != NULL) {
+        /* Condición para borrar: es no crítico Y no es el que guardamos como máximo */
+        if (actual->es_critico == 0 && actual != max_no_critico) {
+            ErrorLog *a_borrar = actual;
+            
+            if (anterior == NULL) {
+                cabeza = actual->sig;
+                actual = cabeza;
+            } else {
+                anterior->sig = actual->sig;
+                actual = actual->sig;
+            }
+            
+            free(a_borrar);
+        } else {
+            anterior = actual;
+            actual = actual->sig;
+        }
+    }
     return cabeza;
 }
 
